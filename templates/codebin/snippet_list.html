@@ -1,0 +1,13 @@
+{% extends "codebin/base.html" %}
+{% block title %} Index {% endblock %}
+{% block content %}
+    {% for snippet in snippets %}
+
+        <div>
+            <h1><a href="">{{ snippet.title }}</a></h1>
+            <p>created: {{ snippet.created_date }}</p>
+            <p></p>
+        </div>
+
+    {% endfor %}
+{% endblock %}
