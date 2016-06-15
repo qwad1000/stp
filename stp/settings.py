@@ -127,3 +127,5 @@ TEMPLATE_LOADERS = (
     'django_jinja.loaders.FileSystemLoader',
 
 )
+
+MEDIA_ROOT = 'snippets/'
