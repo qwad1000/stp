@@ -1,0 +1,9 @@
+{% extends "codebin/base.html" %}
+{% block title %} Snippet {% endblock %}
+{% block content %}
+    <div>
+        <h1>{{ snippet.title }}</h1>
+        <p>created: {{ snippet.created_date }}</p>
+        <pre>{{ content }}</pre>
+    </div>
+{% endblock %}
