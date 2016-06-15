@@ -9,7 +9,7 @@ def snippet_list(request):
     return render(request, 'codebin/snippet_list.html', {'snippets': snippets})
 
 
-def snippet_view(request, pk):
-    snippet = get_object_or_404(Snippet, pk=pk)
+def snippet_view(request, base58):
+    snippet = get_object_or_404(Snippet, base58=base58)
     content = snippet.get_content()
     return render(request, 'codebin/snippet_view.html', {'snippet': snippet, 'content': content})

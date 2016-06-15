@@ -4,7 +4,7 @@
     {% for snippet in snippets %}
 
         <div>
-            <h1><a href="">{{ snippet.title }}</a></h1>
+            <h1><a href="{% url 'snippet_view' base58=snippet.base58 %}">{{ snippet.title }}</a></h1>
             <p>created: {{ snippet.created_date }}</p>
             <p></p>
         </div>
