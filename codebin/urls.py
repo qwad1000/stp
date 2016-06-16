@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.snippet_list, name='snippet_list'),
-    url(r'^snippet/(?P<base58>[{0}]+)/$'.format(alphabet), views.snippet_view, name='snippet_view')
+    url(r'^snippet/new/$', views.snippet_new, name='snippet_new'),
+    url(r'^snippet/(?P<base58>[{0}]+)/$'.format(alphabet), views.snippet_view, name='snippet_view'),
 ]
