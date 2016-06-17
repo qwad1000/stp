@@ -33,4 +33,4 @@ class Snippet(models.Model):
         return content
 
     def __str__(self):
-        return self.title + " " + self.base58 + " c: " + self.content
+        return self.title + " " + self.base58
