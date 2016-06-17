@@ -22,8 +22,15 @@ class Snippet(models.Model):
         default_storage.save(self.base58, content_file)
 
     def get_content(self):
-        file = default_storage.open(self.base58)
-        return file.read()
+        content = ""
+        if self.base58:
+            try:
+                file = default_storage.open(self.base58)
+                content = file.read()
+            except IOError:
+                pass
+
+        return content
 
     def __str__(self):
-        return self.title + " " + self.base58
+        return self.title + " " + self.base58 + " c: " + self.content
