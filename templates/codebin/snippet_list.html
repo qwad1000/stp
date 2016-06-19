@@ -1,12 +1,26 @@
 {% extends "codebin/base.html" %}
 {% block title %} Index {% endblock %}
 {% block content %}
-    {% for snippet in snippets %}
 
+    {% if query_string %}
+        <div class="alert alert-info">
+        <p>
+            Found {{ snippets|length }} snippets with query
+            <mark>{{ query_string }}</mark>
+        </p>
+        {% if snippets|length > 10 %}
+            <p>Viewing last 10</p>
+        {% endif %}
+        </div>
+    {% elif not snippets %}
+        No snippets yet... Press <a href="{% url 'snippet_new' %}">Add snippet</a>
+    {% endif %}
+
+
+    {% for snippet in snippets %}
         <div>
             <h1><a href="{% url 'snippet_view' base58=snippet.base58 %}">{{ snippet.title }}</a></h1>
             <p>created: {{ snippet.created_date }}</p>
-            <p></p>
         </div>
 
     {% endfor %}

@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from .models import Snippet
 from .forms import SnippetForm
+from .search import *
 # Create your views here.
 
 
@@ -27,4 +28,19 @@ def snippet_new(request):
     else:
         form = SnippetForm()
     return render(request, 'codebin/snippet_edit.html', {'errors': errors, 'form': form})
+
+
+def search(request):
+    query_string = ''
+    found = None
+    if ('q' in request.GET) and request.GET['q'].strip():
+        query_string = request.GET['q']
+
+        query = get_query(query_string, ['title'])
+        found = Snippet.objects.filter(query).order_by('created_date')[:10]
+    else:
+        return redirect('snippet_list')
+
+    return render(request, 'codebin/snippet_list.html', {'snippets': found,
+                                                         'query_string': query_string})
 
