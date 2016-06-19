@@ -8,9 +8,6 @@
             Found {{ snippets|length }} snippets with query
             <mark>{{ query_string }}</mark>
         </p>
-        {% if snippets|length > 10 %}
-            <p>Viewing last 10</p>
-        {% endif %}
         </div>
     {% elif not snippets %}
         No snippets yet... Press <a href="{% url 'snippet_new' %}">Add snippet</a>
@@ -24,4 +21,26 @@
         </div>
 
     {% endfor %}
+
+    {% if snippets.paginator %}
+    <ul class="pagination pagination-centered">
+        {% if snippets.has_previous %}
+            <li><a href="?page=1&q={{ query_string }}">&laquo;</a></li>
+            <li><a href="?page={{ snippets.previous_page_number }}&q={{ query_string }}">&lsaquo;</a></li>
+        {% endif %}
+
+        {% for i in snippets.paginator.page_range %}
+            <li {% if snippets.number == i %} class="active" {% endif %}>
+                <a href="?page={{i}}&q={{ query_string }}">{{i}}</a>
+            </li>
+        {% endfor %}
+
+        {% if snippets.has_next %}
+            <li><a href="?page={{ snippets.next_page_number }}&q={{ query_string }}">&rsaquo;</a></li>
+            <li><a href="?page={{ snippets.paginator.num_pages }}&q={{ query_string }}">&raquo;</a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+
+
 {% endblock %}
