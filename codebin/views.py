@@ -13,8 +13,7 @@ def snippet_list(request):
 
 def snippet_view(request, base58):
     snippet = get_object_or_404(Snippet, base58=base58)
-    content = snippet.get_content()
-    return render(request, 'codebin/snippet_view.html', {'snippet': snippet, 'content': content})
+    return render(request, 'codebin/snippet_view.html', {'snippet': snippet})
 
 
 def snippet_new(request):
@@ -23,7 +22,6 @@ def snippet_new(request):
         form = SnippetForm(request.POST)
         if form.is_valid():
             snippet = form.save(commit=False)
-            snippet.save_file(form.cleaned_data['form_content'])
             snippet.save()
             return redirect('snippet_view', base58=snippet.base58)
     else:

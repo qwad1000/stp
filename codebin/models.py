@@ -7,30 +7,16 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
 
+def make_base58():
+    return base58.b58encode(uuid.uuid4().bytes)
+
+
 class Snippet(models.Model):
     title = models.CharField(max_length=128)
-    save_name = models.CharField(max_length=128)
+    file_name = models.CharField(max_length=128)
     created_date = models.DateTimeField(default=timezone.now)
-    base58 = models.CharField(blank=True, max_length=64, editable=False)
-
-    def save_file(self, content):
-        content_file = ContentFile(content)
-        if not self.base58:
-            self.base58 = base58.b58encode(uuid.uuid4().bytes)
-            self.save()
-
-        default_storage.save(self.base58, content_file)
-
-    def get_content(self):
-        content = ""
-        if self.base58:
-            try:
-                file = default_storage.open(self.base58)
-                content = file.read()
-            except IOError:
-                pass
-
-        return content
+    base58 = models.CharField(default=make_base58, max_length=64, editable=False)
+    content = models.TextField()
 
     def __str__(self):
-        return self.title + " " + self.base58
+        return "Snippet {base}".format(base=self.base58)

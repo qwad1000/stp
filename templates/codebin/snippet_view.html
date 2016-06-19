@@ -4,6 +4,7 @@
     <div>
         <h1>{{ snippet.title }}</h1>
         <p>created: {{ snippet.created_date }}</p>
-        <pre>{{ content }}</pre>
+        <p>filename: {{ snippet.file_name }}
+        <pre>{{ snippet.content }}</pre>
     </div>
 {% endblock %}
