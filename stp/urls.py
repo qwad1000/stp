@@ -20,7 +20,8 @@ import django.contrib.auth.views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', auth_views.login, name='login'),
-    url(r'^accounts/logout/$', auth_views.logout, name='logout', kwargs={'next_page': '/'}),
+    url(r'^accounts/logout/$', auth_views.logout, name='auth_logout', kwargs={'next_page': '/'}),
+
+    url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'', include('codebin.urls'))
 ]

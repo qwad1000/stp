@@ -25,6 +25,7 @@
 
         <form action="{% url 'search' %}" method="get"
               class="navbar-form navbar-left" role="search">
+            {% csrf_token %}
             <div class="form-group">
                 <input name="q" type="search" class="form-control" placeholder="Search"
                 {% if query_string %}value="{{ query_string }}"{% endif %}>
@@ -35,12 +36,15 @@
         </form>
 
         {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" type="button" class="btn btn-default navbar-btn navbar-right">
+            <a href="{% url 'auth_logout' %}" type="button" class="btn btn-default navbar-btn navbar-right">
                 Logout|<small>{{user.username}}</small>
             </a>
         {% else %}
-            <a href="{% url 'login' %}" type="button" class="btn btn-default navbar-btn navbar-right">
+            <a href="{% url 'auth_login' %}" type="button" class="btn btn-default navbar-btn navbar-right">
                 Login
+            </a>
+            <a href="{% url 'registration_register' %}" type="button" class="btn btn-default navbar-btn navbar-right">
+                Sign up
             </a>
         {% endif %}
     </div>
@@ -56,4 +60,5 @@
 </div>
 
 </body>
+{% block html_end %}{% endblock %}
 </html>

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'registration',
     'bootstrapform',
     'snowpenguin.django.recaptcha2',
     'codebin',
@@ -104,8 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+REGISTRATION_OPEN = True                # If True, users can register
+ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = '/'
+INCLUDE_AUTH_URLS = True
+INCLUDE_REGISTER_URL = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

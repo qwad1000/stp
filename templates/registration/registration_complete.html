@@ -1,0 +1,16 @@
+{% extends "codebin/base.html" %}
+
+{% block content %}
+<h1>Registration Complete</h1>
+    <p>You will be redirected to main page in 5 seconds.</p>
+
+{% endblock %}
+
+{% block html_end %}
+    <script>
+    window.setTimeout(function(){
+        // Move to a new location or you can do something else
+        window.location.href = "{% url 'snippet_list' %}";
+    }, 5*1000);
+    </script>
+{% endblock %}
