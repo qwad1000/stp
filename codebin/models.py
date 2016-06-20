@@ -3,8 +3,6 @@ import uuid
 import base58
 # Create your models here.
 from django.utils import timezone
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
 
 
 def make_base58():
