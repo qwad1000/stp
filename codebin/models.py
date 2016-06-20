@@ -16,5 +16,7 @@ class Snippet(models.Model):
     base58 = models.CharField(default=make_base58, max_length=64, editable=False)
     content = models.TextField()
 
+    author = models.ForeignKey('auth.User', null=True)
+
     def __str__(self):
         return "Snippet {base}".format(base=self.base58)

@@ -10,6 +10,7 @@
     <div>
         <h1>{{ snippet.title }}</h1>
         <p>created: {{ snippet.created_date }}</p>
+        <p>created by: {% if snippet.author %} {{ snippet.author }} {% else %} Anonymous user {% endif %}</p>
         <p>filename: {{ snippet.file_name }}
         <pre class="pre-scrollable">{{ snippet.content }}</pre>
     </div>

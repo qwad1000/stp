@@ -30,6 +30,9 @@ def snippet_new(request):
         form = SnippetForm(request.POST)
         if form.is_valid():
             snippet = form.save(commit=False)
+            if request.user.is_authenticated():
+                snippet.author = request.user
+
             snippet.save()
             return redirect('snippet_view', base58=snippet.base58)
     else:

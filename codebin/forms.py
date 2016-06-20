@@ -9,4 +9,4 @@ class SnippetForm(forms.ModelForm):
 
     class Meta:
         model = Snippet
-        exclude = ('created_date', )
+        exclude = ('created_date', 'author')
