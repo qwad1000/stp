@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 
@@ -12,15 +12,21 @@ max_per_page = 10
 max_snippets = max_pages * max_per_page
 
 
-def snippet_list(request):
-    all_snippets = Snippet.objects.filter(created_date__lte=timezone.now())\
-        .order_by('-created_date')[:max_snippets]
-    snippets = _paginate(request, all_snippets)
+def snippet_list(request, my):
+    all_snippets = Snippet.objects.filter(created_date__lte=timezone.now())
+    if my and request.user.is_authenticated():
+        all_snippets = all_snippets.filter(Q(author=request.user))
+    else:
+        all_snippets = all_snippets.filter(Q(private=Snippet.PUBLIC))
+
+    snippets = _paginate(request, all_snippets.order_by('-created_date')[:max_snippets])
     return render(request, 'codebin/snippet_list.html', {'snippets': snippets})
 
 
 def snippet_view(request, base58):
     snippet = get_object_or_404(Snippet, base58=base58)
+    if snippet.private == Snippet.PRIVATE and request.user != snippet.author:
+        raise Http404('No snippet.')
     return render(request, 'codebin/snippet_view.html', {'snippet': snippet})
 
 
@@ -47,7 +53,9 @@ def search(request):
         query_string = request.GET['q']
 
         query = get_query(query_string, ['title'])
-        found = Snippet.objects.filter(query).order_by('-created_date')[:max_snippets]
+        found = Snippet.objects.filter(query) \
+            .filter(private=Snippet.PUBLIC)\
+            .order_by('-created_date')[:max_snippets]
     else:
         return redirect('snippet_list')
 

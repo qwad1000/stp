@@ -17,7 +17,10 @@
         {{ form.title|bootstrap}}
         {{ form.file_name|bootstrap }}
         {{ form.content|bootstrap }}
-        {{ form.captcha|bootstrap }}
+        {% if user.is_authenticated %}
+            {{ form.private|bootstrap }}
+        {% endif %}
+{#        {{ form.captcha|bootstrap }}#}
 
         <button type="submit" class="save btn btn-default">Submit</button>
     </form>

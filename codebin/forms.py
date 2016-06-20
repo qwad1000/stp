@@ -10,3 +10,6 @@ class SnippetForm(forms.ModelForm):
     class Meta:
         model = Snippet
         exclude = ('created_date', 'author')
+        widgets = {
+            'private': forms.RadioSelect
+        }

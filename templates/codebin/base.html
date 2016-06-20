@@ -21,6 +21,8 @@
 
         <ul class="nav navbar-nav">
             <li><a href="{% url 'snippet_new' %}">Add snippet</a></li>
+            {# TODO: remove my #}
+            {% if user.is_authenticated %}<li><a href="{% url 'snippet_list' %}my/">Private snippets</a></li>{% endif %}
         </ul>
 
         <form action="{% url 'search' %}" method="get"

@@ -18,5 +18,11 @@ class Snippet(models.Model):
 
     author = models.ForeignKey('auth.User', null=True)
 
+    PRIVATE = 'PR'
+    WITH_LINK = 'URL'
+    PUBLIC = 'PUB'
+    PRIVATE_CHOICE = [(PRIVATE, 'Private'), (WITH_LINK, 'Available by link'), (PUBLIC, 'Public')]
+    private = models.CharField(max_length=3, choices=PRIVATE_CHOICE, default=PUBLIC)
+
     def __str__(self):
         return "Snippet {base}".format(base=self.base58)
