@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrapform',
+    'snowpenguin.django.recaptcha2',
     'codebin',
 ]
 
@@ -129,4 +130,6 @@ TEMPLATE_LOADERS = (
 
 )
 
-MEDIA_ROOT = 'snippets/'
+# Google reCaptcha keys for qwad1000.pythonanywhere.com
+RECAPTCHA_PRIVATE_KEY = '6LeQCCMTAAAAAD8ehbdZGEuRQSp3VmgAihINzIcI'
+RECAPTCHA_PUBLIC_KEY = '6LeQCCMTAAAAALA2RZ23eutgHdc5PzvIs2KPEBId'

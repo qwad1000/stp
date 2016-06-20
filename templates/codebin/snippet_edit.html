@@ -1,5 +1,13 @@
 {% extends 'codebin/base.html' %}
+{% block title %}New snippet{% endblock %}
+{% block head %}
+    {{ block.super }}
+    {% load recaptcha2 %}
+    {% recaptcha_init 'en' %}
+{% endblock %}
+
 {% load bootstrap %}
+
 
 {% block content %}
     <h1>New snippet</h1>
