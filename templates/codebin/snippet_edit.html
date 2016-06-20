@@ -13,17 +13,12 @@
     <h1>New snippet</h1>
     <form method="POST" class="post-form">
         {% csrf_token %}
-{#        <div class="form-group">#}
-{#            <label>Snippet title</label>#}
-{#            <input type="text" class="form-control">#}
-{#        </div>#}
-{##}
-{#        <div class="form-group">#}
-{#            <label>Snippet title</label>#}
-{#            {{ form.form_content }}#}
-{#            <textarea class="form-control"> </textarea>#}
-{#        </div>#}
-            {{ form|bootstrap }}
-        <button type="submit" class="save btn btn-default">Save</button>
+
+        {{ form.title|bootstrap}}
+        {{ form.file_name|bootstrap }}
+        {{ form.content|bootstrap }}
+        {{ form.captcha|bootstrap }}
+
+        <button type="submit" class="save btn btn-default">Submit</button>
     </form>
 {% endblock %}
