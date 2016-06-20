@@ -1,10 +1,16 @@
 {% extends "codebin/base.html" %}
 {% block title %} Snippet {% endblock %}
+{% block head %}
+    {{ block.super }}
+    <style>
+        .pre-scrollable {min-height: 10em;}
+    </style>
+{% endblock %}
 {% block content %}
     <div>
         <h1>{{ snippet.title }}</h1>
         <p>created: {{ snippet.created_date }}</p>
         <p>filename: {{ snippet.file_name }}
-        <pre>{{ snippet.content }}</pre>
+        <pre class="pre-scrollable">{{ snippet.content }}</pre>
     </div>
 {% endblock %}
