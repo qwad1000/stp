@@ -14,7 +14,7 @@ max_snippets = max_pages * max_per_page
 
 def snippet_list(request):
     all_snippets = Snippet.objects.filter(created_date__lte=timezone.now())\
-        .order_by('created_date')[:max_snippets]
+        .order_by('-created_date')[:max_snippets]
     snippets = _paginate(request, all_snippets)
     return render(request, 'codebin/snippet_list.html', {'snippets': snippets})
 
@@ -44,7 +44,7 @@ def search(request):
         query_string = request.GET['q']
 
         query = get_query(query_string, ['title'])
-        found = Snippet.objects.filter(query).order_by('created_date')[:max_snippets]
+        found = Snippet.objects.filter(query).order_by('-created_date')[:max_snippets]
     else:
         return redirect('snippet_list')
 
