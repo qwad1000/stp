@@ -19,8 +19,10 @@
         {{ form.content|bootstrap }}
         {% if user.is_authenticated %}
             {{ form.private|bootstrap }}
+        {% else %}
+            {{ form.private.as_hidden }}
         {% endif %}
-{#        {{ form.captcha|bootstrap }}#}
+        {{ form.captcha|bootstrap }}
 
         <button type="submit" class="save btn btn-default">Submit</button>
     </form>
