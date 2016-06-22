@@ -10,11 +10,19 @@
     <div>
         <h3>
             {{ snippet.title }}
-            {% if snippet.author == user %}
-                <small><a href="{% url 'snippet_edit' base58=snippet.base58 %}">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </a></small>
-            {% endif %}
+
+            <small>
+                {% if snippet.private != snippet.PUBLIC %}
+                    <span class="label label-default">{{ snippet.get_private_display }}</span>
+                {% endif %}
+                {% if snippet.author == user %}
+                    <a href="{% url 'snippet_edit' base58=snippet.base58 %}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                {% endif %}
+
+            </small>
+
         </h3>
         <p>created: {{ snippet.created_date }}</p>
         <p>created by: {% if snippet.author %} {{ snippet.author }} {% else %} Anonymous user {% endif %}</p>
