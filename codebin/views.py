@@ -12,15 +12,21 @@ max_per_page = 10
 max_snippets = max_pages * max_per_page
 
 
-def snippet_list(request, my):
-    all_snippets = Snippet.objects.filter(created_date__lte=timezone.now())
-    if my and request.user.is_authenticated():
-        all_snippets = all_snippets.filter(Q(author=request.user))
+def _list_snippets(user, my=None):
+    if user.is_authenticated():
+        if my:  # get only my snippets (both public and private)
+            return Snippet.objects.filter(Q(author=user))
+        else:  # get public and my snippets
+            return Snippet.objects.filter(Q(private=Snippet.PUBLIC) | (Q(author=user) & ~Q(private=Snippet.PUBLIC)))
     else:
-        all_snippets = all_snippets.filter(Q(private=Snippet.PUBLIC))
+        return Snippet.objects.filter(Q(private=Snippet.PUBLIC))
 
-    snippets = _paginate(request, all_snippets.order_by('-created_date')[:max_snippets])
-    return render(request, 'codebin/snippet_list.html', {'snippets': snippets})
+
+def snippet_list(request, my):
+    snippets = _list_snippets(request.user, my)
+
+    paged_snippets = _paginate(request, snippets.order_by('-created_date')[:max_snippets])
+    return render(request, 'codebin/snippet_list.html', {'snippets': paged_snippets})
 
 
 def snippet_view(request, base58):
@@ -53,9 +59,9 @@ def search(request):
         query_string = request.GET['q']
 
         query = get_query(query_string, ['title'])
-        found = Snippet.objects.filter(query) \
-            .filter(private=Snippet.PUBLIC)\
-            .order_by('-created_date')[:max_snippets]
+        found = _list_snippets(request.user, my=None)\
+                    .filter(query)\
+                    .order_by('-created_date')[:max_snippets]
     else:
         return redirect('snippet_list')
 
