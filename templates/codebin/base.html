@@ -21,8 +21,14 @@
 
         <ul class="nav navbar-nav">
             <li><a href="{% url 'snippet_new' %}">Add snippet</a></li>
-            {# TODO: remove my #}
-            {% if user.is_authenticated %}<li><a href="{% url 'snippet_list' %}my/">Private snippets</a></li>{% endif %}
+            {% if user.is_authenticated %}
+                {% url 'snippet_list' 'my' as the_url %}
+                {% if  request.get_full_path == the_url %}
+                    <li><a href="{% url 'snippet_list' %}">Public snippets</a></li>
+                {% else %}
+                    <li><a href="{% url 'snippet_list' 'my' %}">Private snippets</a></li>
+                {% endif %}
+            {% endif %}
         </ul>
 
         <form action="{% url 'search' %}" method="get"
