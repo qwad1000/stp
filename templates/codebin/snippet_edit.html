@@ -10,7 +10,15 @@
 
 
 {% block content %}
-    <h1>New snippet</h1>
+    <h2>
+        {# TODO: change #}
+        {% if form.title %}
+            Edit snippet
+        {% else %}
+            New snippet
+        {% endif %}
+    </h2>
+
     <form method="POST" class="post-form">
         {% csrf_token %}
 

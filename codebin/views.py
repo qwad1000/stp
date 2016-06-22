@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .models import Snippet
@@ -36,20 +37,39 @@ def snippet_view(request, base58):
     return render(request, 'codebin/snippet_view.html', {'snippet': snippet})
 
 
+@login_required
+def snippet_edit(request, base58):
+    snippet = get_object_or_404(Snippet, base58=base58)
+    errors = []
+    if request.method == 'POST':
+        snippet_form = SnippetForm(request.POST, instance=snippet)
+        if snippet_form.is_valid():
+            snippet = snippet_form.save(commit=False)
+            snippet.last_edited_date = timezone.now()
+            snippet.save()
+            return redirect('snippet_view', base58=snippet.base58)
+        else:
+            errors.append(snippet_form.errors)
+    else:
+        snippet_form = SnippetForm(instance=Snippet.objects.get(base58=base58))
+
+    return render(request, 'codebin/snippet_edit.html', {'errors': errors, 'form': snippet_form})
+
+
 def snippet_new(request):
     errors = []
     if request.method == 'POST':
-        form = SnippetForm(request.POST)
-        if form.is_valid():
-            snippet = form.save(commit=False)
+        snippet_form = SnippetForm(request.POST)
+        if snippet_form.is_valid():
+            snippet = snippet_form.save(commit=False)
             if request.user.is_authenticated():
                 snippet.author = request.user
 
             snippet.save()
             return redirect('snippet_view', base58=snippet.base58)
     else:
-        form = SnippetForm()
-    return render(request, 'codebin/snippet_edit.html', {'errors': errors, 'form': form})
+        snippet_form = SnippetForm()
+    return render(request, 'codebin/snippet_edit.html', {'errors': errors, 'form': snippet_form})
 
 
 def search(request):

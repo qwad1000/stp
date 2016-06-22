@@ -18,9 +18,19 @@
         <div>
             <h3>
                 <a href="{% url 'snippet_view' base58=snippet.base58 %}">{{ snippet.title }}</a>
-                {% if snippet.private != snippet.PUBLIC %}
-                    <small><span class="label label-default">{{ snippet.get_private_display }}</span></small>
-                {% endif %}
+
+                    <small>
+                        {% if snippet.private != snippet.PUBLIC %}
+                            <span class="label label-default">{{ snippet.get_private_display }}</span>
+                        {% endif %}
+                        {% if snippet.author == user %}
+                            <a href="{% url 'snippet_edit' base58=snippet.base58 %}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        {% endif %}
+                    </small>
+
+
             </h3>
 
             <p>created: {{ snippet.created_date }}</p>
