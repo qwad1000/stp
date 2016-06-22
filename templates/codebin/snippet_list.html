@@ -16,7 +16,13 @@
 
     {% for snippet in snippets %}
         <div>
-            <h1><a href="{% url 'snippet_view' base58=snippet.base58 %}">{{ snippet.title }}</a></h1>
+            <h3>
+                <a href="{% url 'snippet_view' base58=snippet.base58 %}">{{ snippet.title }}</a>
+                {% if snippet.private != snippet.PUBLIC %}
+                    <small><span class="label label-default">{{ snippet.get_private_display }}</span></small>
+                {% endif %}
+            </h3>
+
             <p>created: {{ snippet.created_date }}</p>
         </div>
 
