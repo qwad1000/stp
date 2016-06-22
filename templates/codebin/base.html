@@ -24,9 +24,9 @@
             {% if user.is_authenticated %}
                 {% url 'snippet_list' 'my' as the_url %}
                 {% if  request.get_full_path == the_url %}
-                    <li><a href="{% url 'snippet_list' %}">Public snippets</a></li>
+                    <li><a href="{% url 'snippet_list' %}">All snippets</a></li>
                 {% else %}
-                    <li><a href="{% url 'snippet_list' 'my' %}">Private snippets</a></li>
+                    <li><a href="{% url 'snippet_list' 'my' %}">My snippets</a></li>
                 {% endif %}
             {% endif %}
         </ul>
