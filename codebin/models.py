@@ -13,6 +13,7 @@ class Snippet(models.Model):
     title = models.CharField(max_length=128)
     file_name = models.CharField(max_length=128)
     created_date = models.DateTimeField(default=timezone.now)
+    last_edited_date = models.DateTimeField(null=True)
     base58 = models.CharField(default=make_base58, max_length=64, editable=False)
     content = models.TextField()
 
