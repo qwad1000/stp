@@ -14,7 +14,7 @@ class Snippet(models.Model):
     file_name = models.CharField(max_length=128)
     created_date = models.DateTimeField(default=timezone.now)
     last_edited_date = models.DateTimeField(null=True)
-    base58 = models.CharField(default=make_base58, max_length=64, editable=False)
+    base58 = models.CharField(default=make_base58, max_length=64, editable=False, primary_key=True)
     content = models.TextField()
 
     author = models.ForeignKey('auth.User', null=True)
